@@ -1,0 +1,14 @@
+import type { Create{{pascalCase name}}DTO } from "./{{name
+}}.dto.js";
+import { {{name}}Repository } from "./{{name
+}}.repository.js";
+
+export const {{name}}Service = {
+  create{{pascalCase name
+}}: async (data: Create{{pascalCase name
+}}DTO) => {
+    const result = await {{name
+}}Repository.create(data);
+    return result;
+  },
+};

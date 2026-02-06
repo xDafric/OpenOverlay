@@ -1,0 +1,16 @@
+import { Router } from "express";
+import { validateBody } from "@/middlewares/validate.js";
+import { create{{pascalCase
+  name
+}}Schema } from "./{{name}}.dto.js";
+import { create{{pascalCase name
+}} } from "./{{name
+}}.controller.js";
+
+const router = Router();
+
+router.post("/", validateBody(create{{pascalCase
+  name
+}}Schema), create{{pascalCase name}});
+
+export default router;

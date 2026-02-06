@@ -1,0 +1,26 @@
+import type { NextFunction, Request, Response } from "express";
+import type { Create{{pascalCase
+  name
+}}DTO } from "./{{name}}.dto.js";
+import { {{name}}Service } from "./{{name
+}}.service.js";
+
+export const create{{pascalCase name
+}} = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const data: Create{{pascalCase
+  name
+}}DTO = req.body;
+    const result = await {{name}}Service.create{{pascalCase
+  name
+}}(data);
+    res.status(201).json({ success: true, message: "{{pascalCase name
+}} created" });
+  } catch (err) {
+    next(err);
+  }
+};

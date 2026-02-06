@@ -1,0 +1,9 @@
+import { db } from "@/db/db.js";
+import { {{name}} } from "./{{name
+}}.schema.js";
+
+export const {{name
+}}Repository = {
+  create: async (data: any) => db.insert({{name
+}}).values(data),
+};
