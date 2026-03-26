@@ -38,4 +38,9 @@ export const roles = {
   admin,
 };
 
+export const workspaceStatement = {
+  ...defaultStatements,
+  project: ["create", "share", "update", "delete"],
+} as const;
+
 export type Role = keyof typeof roles;

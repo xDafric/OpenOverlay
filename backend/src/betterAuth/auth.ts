@@ -3,14 +3,18 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "../db/db.js";
 import {
   account,
+  invitation,
+  member,
   session,
   user,
   verification,
+  workspace,
 } from "../modules/auth/auth.schema.js";
 import { env } from "@/config/config.js";
 import {
   admin as adminPlugin,
   createAuthMiddleware,
+  organization,
 } from "better-auth/plugins";
 import { Mail } from "@/utils/mail.js";
 import { ac, roles } from "./permissions.js";
@@ -28,6 +32,9 @@ export const auth = betterAuth({
       account: account,
       session: session,
       verification: verification,
+      member: member,
+      workspace: workspace,
+      invitation: invitation,
     },
   }),
   emailAndPassword: {
@@ -63,6 +70,19 @@ export const auth = betterAuth({
         admin: roles.admin,
       },
       defaultRole: "user",
+    }),
+    organization({
+      organizationLimit: 1,
+      requireEmailVerificationOnInvitation: true,
+      dynamicAccessControl: {
+        enabled: true,
+      },
+      ac,
+      schema: {
+        organization: {
+          modelName: "workspace",
+        },
+      },
     }),
   ],
   hooks: {

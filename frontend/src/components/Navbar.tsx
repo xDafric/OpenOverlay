@@ -1,11 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-} from "./ui/navigation-menu";
 import ThemeToggle from "./ui/theme-toggle";
 import { authClient } from "@/lib/auth-client";
 import { AvatarDropdown } from "./custom-ui/avatar-dropdown";
@@ -29,24 +23,11 @@ const Navbar: React.FC = () => {
           ></Banner>
         )}
 
-        <div className="flex bg-background justify-center h-16 w-screen items-center">
-          <div className=" w-[60%] mx-auto flex items-center justify-between px-5 ">
+        <div className="flex bg-muted justify-center h-16 w-screen items-center">
+          <div className=" w-full mx-auto flex items-center justify-between px-10 ">
             <a className="text-xl font-bold" href="/">
-              Test
+              OpenOverlay
             </a>
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <NavigationMenuLink href="/Test">Nav 1</NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuLink href="/Test">Nav 2</NavigationMenuLink>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <NavigationMenuLink href="/Test">Nav 3</NavigationMenuLink>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
             <div className="flex gap-8 items-center">
               <ThemeToggle />
               {session?.session ? (
