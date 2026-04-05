@@ -5,6 +5,8 @@ import { ThemeProvider } from "./components/ui/theme-provider";
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 import SidebarWrapper from "./components/navigation/sidebar-wrapper";
+import WorkspaceProvider from "./provider/workspaceProvider";
+import NoWorkspace from "./pages/NoWorkspace";
 
 export default function App() {
   return (
@@ -12,14 +14,33 @@ export default function App() {
       <ThemeProvider>
         <Routes>
           <Route
+            path=":workspaceSlug"
             element={
               <ProtectedRoute>
-                <SidebarWrapper />
+                <WorkspaceProvider>
+                  <SidebarWrapper />
+                </WorkspaceProvider>
               </ProtectedRoute>
             }
           >
-            <Route path="/" element={<Home />} />
+            <Route index element={<Home />} />
           </Route>
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <WorkspaceProvider></WorkspaceProvider>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="no-workspace"
+            element={
+              <ProtectedRoute>
+                <NoWorkspace />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/auth"
             element={
