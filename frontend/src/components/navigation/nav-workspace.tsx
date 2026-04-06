@@ -8,6 +8,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { NavLink, useLocation, useParams } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 export function NavWorkspace({
   items,
@@ -18,20 +20,30 @@ export function NavWorkspace({
     icon: LucideIcon;
   }[];
 }) {
+  const { workspaceSlug } = useParams();
+  const location = useLocation();
+
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Workspace</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => (
-          <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton asChild>
-              <a href={item.url}>
-                <item.icon />
-                <span>{item.name}</span>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        ))}
+        {items.map((item) => {
+          const url = `/${workspaceSlug}/${item.url}`;
+          const isActive = location.pathname === url;
+          return (
+            <SidebarMenuItem key={item.name}>
+              <SidebarMenuButton
+                className={cn({ "bg-muted": isActive })}
+                asChild
+              >
+                <NavLink to={url}>
+                  <item.icon />
+                  <span>{item.name}</span>
+                </NavLink>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          );
+        })}
       </SidebarMenu>
     </SidebarGroup>
   );

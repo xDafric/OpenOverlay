@@ -1,6 +1,6 @@
 import { authClient } from "@/lib/auth-client";
 import { useEffect, type ReactNode } from "react";
-import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const WorkspaceProvider = ({ children }: { children?: ReactNode }) => {
   const { workspaceSlug } = useParams();
@@ -62,15 +62,7 @@ const WorkspaceProvider = ({ children }: { children?: ReactNode }) => {
     }
   }, [activeWorkspace, workspaceSlug, navigate]);
 
-  return (
-    <>
-      {!isWorkspacesPending && !isActivePending && (
-        <>
-          {children} <Outlet />
-        </>
-      )}
-    </>
-  );
+  return <>{!isWorkspacesPending && !isActivePending && <>{children}</>}</>;
 };
 
 export default WorkspaceProvider;

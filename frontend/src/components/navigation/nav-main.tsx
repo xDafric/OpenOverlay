@@ -14,6 +14,8 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
+import { NavLink, useLocation, useParams } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 export function NavMain({
   items,
@@ -29,6 +31,9 @@ export function NavMain({
     }[];
   }[];
 }) {
+  const { workspaceSlug } = useParams();
+  const location = useLocation();
+
   return (
     <SidebarGroup>
       <SidebarMenu>
@@ -51,12 +56,12 @@ export function NavMain({
                   </CollapsibleTrigger>
                   <CollapsibleContent>
                     <SidebarMenuSub>
-                      {item.items?.map((subItem) => (
-                        <SidebarMenuSubItem key={subItem.title}>
+                      {item.items?.map((subItem, index) => (
+                        <SidebarMenuSubItem key={index}>
                           <SidebarMenuSubButton asChild>
-                            <a href={subItem.url}>
+                            <NavLink to={`/${workspaceSlug}/${subItem.url}`}>
                               <span>{subItem.title}</span>
-                            </a>
+                            </NavLink>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                       ))}
@@ -66,12 +71,18 @@ export function NavMain({
               </Collapsible>
             ) : (
               <SidebarMenuItem>
-                <a href={item.url}>
-                  <SidebarMenuButton tooltip={item.title}>
+                <NavLink to={`/${workspaceSlug}/${item.url}`}>
+                  <SidebarMenuButton
+                    className={cn({
+                      "bg-muted":
+                        location.pathname === `/${workspaceSlug}/${item.url}`,
+                    })}
+                    tooltip={item.title}
+                  >
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
                   </SidebarMenuButton>
-                </a>
+                </NavLink>
               </SidebarMenuItem>
             )}
           </div>

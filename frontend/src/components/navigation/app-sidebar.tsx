@@ -22,26 +22,25 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { NavWorkspace } from "./nav-workspace";
-import { authClient } from "@/lib/auth-client";
 
 const data = {
   navMain: [
-    { title: "Home", url: "/", icon: Home },
+    { title: "Home", url: "", icon: Home },
     {
       title: "Overlays",
-      url: "#",
+      url: "overlays",
       icon: Layers,
       items: [],
     },
     {
       title: "Scenes",
-      url: "#",
+      url: "scenes",
       icon: Clapperboard,
       items: [],
     },
     {
       title: "Widgets",
-      url: "#",
+      url: "widgets",
       icon: LayoutDashboard,
       items: [],
     },
@@ -49,29 +48,27 @@ const data = {
   navWorkspace: [
     {
       name: "Settings",
-      url: "#",
+      url: "settings",
       icon: Settings,
     },
     {
       name: "Members",
-      url: "#",
+      url: "members",
       icon: Users,
     },
     {
       name: "Invites",
-      url: "#",
+      url: "invites",
       icon: Mail,
     },
   ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { data: workspaces } = authClient.useListOrganizations();
-
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <WorkspaceSwitcher workspaces={workspaces ?? []} />
+        <WorkspaceSwitcher />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />

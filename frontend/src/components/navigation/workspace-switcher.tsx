@@ -17,17 +17,14 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import type { Organization } from "better-auth/plugins";
 import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
 import { CreateWorkspaceDialog } from "../workspace/CreateWorkspace";
-export function WorkspaceSwitcher({
-  workspaces,
-}: {
-  workspaces: Organization[];
-}) {
+
+export function WorkspaceSwitcher() {
   const [createOpen, setCreateOpen] = useState(false);
   const { isMobile } = useSidebar();
+  const { data: workspaces } = authClient.useListOrganizations();
   const { data: activeWorkspace } = authClient.useActiveOrganization();
 
   return (
@@ -60,7 +57,7 @@ export function WorkspaceSwitcher({
               <DropdownMenuLabel className="text-muted-foreground text-xs">
                 Workspaces
               </DropdownMenuLabel>
-              {workspaces.map((workspace, index) => (
+              {workspaces?.map((workspace, index) => (
                 <DropdownMenuItem
                   key={workspace.id}
                   onClick={() =>

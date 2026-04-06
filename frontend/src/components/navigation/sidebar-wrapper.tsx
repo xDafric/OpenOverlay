@@ -2,7 +2,6 @@ import { AppSidebar } from "@/components/navigation/app-sidebar";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
@@ -13,9 +12,39 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Outlet } from "react-router-dom";
+import { Fragment, useEffect, useState } from "react";
+import { Outlet, useMatches, useParams, type Params } from "react-router-dom";
 
 const SidebarWrapper: React.FC = () => {
+  const matches = useMatches();
+  const [breadcrumbs, setBreadcrumbs] = useState<string[]>([]);
+  const params = useParams();
+
+  useEffect(() => {
+    const fetchBreadcrumbs = async () => {
+      const breadcrumbs = matches.filter((match) => match.pathname != "/");
+      const fetchedBreadcrumbs = await Promise.all(
+        breadcrumbs.map(async (breadcrumb) => {
+          const field = (
+            breadcrumb.handle as {
+              breadcrumb: ((params: Params) => Promise<string>) | string;
+            }
+          ).breadcrumb;
+
+          let value;
+          if (typeof field === "function") {
+            value = await field(params);
+          } else {
+            value = field;
+          }
+          return value;
+        }),
+      );
+      setBreadcrumbs(fetchedBreadcrumbs);
+    };
+    fetchBreadcrumbs();
+  }, [matches]);
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -29,15 +58,16 @@ const SidebarWrapper: React.FC = () => {
             />
             <Breadcrumb>
               <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Build Your Application
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
+                {breadcrumbs.map((breadcrumb, index) => (
+                  <Fragment key={index}>
+                    {index != 0 && (
+                      <BreadcrumbSeparator className="hidden md:block" />
+                    )}
+                    <BreadcrumbItem>
+                      <BreadcrumbPage>{breadcrumb}</BreadcrumbPage>
+                    </BreadcrumbItem>
+                  </Fragment>
+                ))}
               </BreadcrumbList>
             </Breadcrumb>
           </div>
