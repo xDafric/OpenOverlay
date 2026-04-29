@@ -1,27 +1,22 @@
+import Settings from "@/components/settings";
 import {
   AlertTriangle,
   Palette,
   Plug,
-  Settings,
+  Settings as SettingsIcon,
   ShieldUser,
   type LucideIcon,
 } from "lucide-react";
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "../../ui/sidebar";
-import { Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 const nav: {
   title: string;
-  icon?: LucideIcon;
+  icon: LucideIcon;
   url: string;
-  styles?: string;
 }[] = [
   {
     title: "General",
-    icon: Settings,
+    icon: SettingsIcon,
     url: "",
   },
   {
@@ -43,34 +38,55 @@ const nav: {
     title: "Danger Zone",
     icon: AlertTriangle,
     url: "danger",
-    styles: "text-destructive hover:text-destructive",
   },
 ];
 
-const WorkspaceSettings = () => {
+export const WorkspaceSettings = () => {
   return (
     <>
-      <div className="flex flex-row h-full">
-        <div className="bg-sidebar p-4 min-w-52 rounded-xl">
-          <SidebarMenu>
-            {nav.map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <Link to={item.url}>
-                  <SidebarMenuButton className={item.styles}>
-                    {item.icon && <item.icon />}
-                    <span>{item.title}</span>
-                  </SidebarMenuButton>
-                </Link>
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </div>
-        <div className="p-4">
-          <h1>Test</h1>
-        </div>
-      </div>
+      <Settings items={nav}>
+        <Outlet />
+      </Settings>
     </>
   );
 };
 
-export default WorkspaceSettings;
+export const General = () => {
+  return (
+    <>
+      <h1>General</h1>
+    </>
+  );
+};
+
+export const Appearance = () => {
+  return (
+    <>
+      <h1>Appearance</h1>
+    </>
+  );
+};
+
+export const PermissionsRoles = () => {
+  return (
+    <>
+      <h1>Permissions & Roles</h1>
+    </>
+  );
+};
+
+export const Integrations = () => {
+  return (
+    <>
+      <h1>Integrations</h1>
+    </>
+  );
+};
+
+export const DangerZone = () => {
+  return (
+    <>
+      <h1>Danger Zone</h1>
+    </>
+  );
+};

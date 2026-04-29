@@ -1,6 +1,5 @@
 "use client";
 
-import { type LucideIcon } from "lucide-react";
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -8,8 +7,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { NavLink, useLocation, useParams } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { type LucideIcon } from "lucide-react";
+import { NavLink } from "react-router-dom";
 
 export function NavWorkspace({
   items,
@@ -20,27 +20,22 @@ export function NavWorkspace({
     icon: LucideIcon;
   }[];
 }) {
-  const { workspaceSlug } = useParams();
-  const location = useLocation();
-
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Workspace</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => {
-          const url = `/${workspaceSlug}/${item.url}`;
-          const isActive = location.pathname === url;
           return (
             <SidebarMenuItem key={item.name}>
-              <SidebarMenuButton
-                className={cn({ "bg-muted": isActive })}
-                asChild
-              >
-                <NavLink to={url}>
-                  <item.icon />
-                  <span>{item.name}</span>
-                </NavLink>
-              </SidebarMenuButton>
+              <NavLink
+                to={item.url}
+                children={({ isActive }) => (
+                  <SidebarMenuButton className={cn({ "bg-muted": isActive })}>
+                    <item.icon />
+                    <span>{item.name}</span>
+                  </SidebarMenuButton>
+                )}
+              />
             </SidebarMenuItem>
           );
         })}

@@ -4,17 +4,18 @@ import {
   type Params,
   type RouteObject,
 } from "react-router-dom";
+import SidebarWrapper from "./components/navigation/sidebar-wrapper";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Invites from "./components/workspace/Invites";
+import Members from "./components/workspace/Members";
+import { WorkspaceSettings } from "./components/workspace/WorkspaceSettings/WorkspaceSettings";
+import { workspaceSettingsRoutes } from "./components/workspace/WorkspaceSettings/workspaceSettings.routes";
+import { authClient } from "./lib/auth-client";
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
-import ProtectedRoute from "./components/ProtectedRoute";
+import Home from "./pages/Home";
 import NoWorkspace from "./pages/NoWorkspace";
 import WorkspaceProvider from "./provider/workspaceProvider";
-import Home from "./pages/Home";
-import SidebarWrapper from "./components/navigation/sidebar-wrapper";
-import { authClient } from "./lib/auth-client";
-import WorkspaceSettings from "./components/workspace/WorkspaceSettings/WorkspaceSettings";
-import Members from "./components/workspace/Members";
-import Invites from "./components/workspace/Invites";
 
 export type AppRoute = Omit<RouteObject, "children"> & {
   children?: AppRoute[];
@@ -102,6 +103,7 @@ export const router = createBrowserRouter([
             handle: {
               breadcrumb: "Settings",
             },
+            children: workspaceSettingsRoutes,
           },
           {
             path: "members",
